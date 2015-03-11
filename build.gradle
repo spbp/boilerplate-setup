@@ -1,0 +1,53 @@
+// Import plugins
+buildscript {
+	repositories {
+		jcenter()
+	}
+	dependencies {
+        classpath 'nl.javadude.gradle.plugins:license-gradle-plugin:0.11.0'
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'license'
+
+ext.projectName = 'boilerplate-setup'
+ext.packaging = 'jar'
+ext.author = 'SPBP'
+ext.authorUrl = 'https://github.com/spbp/'
+ext.inceptionYear = '2015'
+
+version = '0.1.0-SNAPSHOT'
+group = 'com.github.spbp.boilerplate'
+
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+
+https://github.com/spbp/boilerplate-setup
+	
+license {
+    ext.name = rootProject.projectName
+    ext.author = rootProject.author
+    ext.url = rootProject.authorUrl
+    ext.year = rootProject.inceptionYear
+    exclude "**/*.info"
+    exclude "**/*.html"
+    exclude "assets/**"
+    header new File(rootProject.getProjectDir(), "HEADER.txt")
+    sourceSets = project.sourceSets
+    ignoreFailures false
+    strictCheck true
+    mapping {
+        java = 'SLASHSTAR_STYLE'
+    }
+}
+
+processResources {
+    from new File(rootProject.getProjectDir(), "LICENSE.txt")
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'com.github.spbp.BoilerplateSetup'
+    }
+}
