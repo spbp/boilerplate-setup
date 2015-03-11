@@ -22,8 +22,6 @@ group = 'com.github.spbp.boilerplate'
 
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
-
-https://github.com/spbp/boilerplate-setup
 	
 license {
     ext.name = rootProject.projectName
