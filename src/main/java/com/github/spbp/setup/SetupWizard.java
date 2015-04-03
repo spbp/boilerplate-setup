@@ -24,10 +24,10 @@
  */
 package com.github.spbp.setup;
 
-import java.awt.Frame;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JFrame;
 import org.qdwizard.Screen;
 import org.qdwizard.Wizard;
 
@@ -49,9 +49,11 @@ public class SetupWizard extends Wizard
 		screens.add(FinishScreen.class);
 	}
 	
-	public SetupWizard(Frame frame)
+	public SetupWizard(JFrame frame)
 	{
-		super(new Wizard.Builder("Sponge Plugin Boilerplate Setup", WelcomeScreen.class, frame));
+		super(new Wizard.Builder("Sponge Plugin Boilerplate Setup", WelcomeScreen.class, frame)
+		//.icon(new ImageIcon(SetupWizard.class.getResource("/assets/spbp.png")))
+		);
 	}
 
 	@Override
@@ -79,5 +81,4 @@ public class SetupWizard extends Wizard
 	{
 		// TODO Auto-generated method stub
 	}
-
 }

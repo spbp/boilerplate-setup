@@ -24,14 +24,14 @@
  */
 package com.github.spbp.setup;
 
-import java.awt.Frame;
+import javax.swing.JFrame;
 
 public class BoilerplateSetup
 {
 
 	public static void main(String[] args)
 	{
-		Frame frame = new Frame();
+		JFrame frame = new JFrame();
 
 		SetupWizard wizard = new SetupWizard(frame);
 		wizard.show();
