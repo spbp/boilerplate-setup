@@ -25,15 +25,59 @@
 package com.github.spbp.setup;
 
 import java.awt.Frame;
+import java.util.ArrayList;
+import java.util.List;
 
-public class BoilerplateSetup
+import org.qdwizard.Screen;
+import org.qdwizard.Wizard;
+
+import com.github.spbp.setup.screen.*;
+
+public class SetupWizard extends Wizard
 {
-
-	public static void main(String[] args)
+	private final static List<Class<? extends Screen>> screens = new ArrayList<>();
+	
+	static 
 	{
-		Frame frame = new Frame();
-
-		SetupWizard wizard = new SetupWizard(frame);
-		wizard.show();
+		screens.add(WelcomeScreen.class);
+		screens.add(LayoutScreen.class);
+		screens.add(BasicsScreen.class);
+		screens.add(OpenSourceScreen.class);
+		screens.add(DependencyScreen.class);
+		screens.add(MavenScreen.class);
+		screens.add(InstallationScreen.class);
+		screens.add(FinishScreen.class);
 	}
+	
+	public SetupWizard(Frame frame)
+	{
+		super(new Wizard.Builder("Sponge Plugin Boilerplate Setup", WelcomeScreen.class, frame));
+	}
+
+	@Override
+	public Class<? extends Screen> getPreviousScreen(Class<? extends Screen> screen)
+	{
+		int index = screens.indexOf(screen);
+		
+		if(index == 0) return null;
+		
+		return screens.get(index - 1);
+	}
+
+	@Override
+	public Class<? extends Screen> getNextScreen(Class<? extends Screen> screen)
+	{
+		int index = screens.indexOf(screen);
+		
+		if(index + 1 == screens.size()) return null;
+		
+		return screens.get(index + 1);
+	}
+
+	@Override
+	public void finish()
+	{
+		// TODO Auto-generated method stub
+	}
+
 }

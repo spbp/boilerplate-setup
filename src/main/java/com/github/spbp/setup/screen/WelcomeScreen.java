@@ -22,18 +22,32 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.github.spbp.setup;
+package com.github.spbp.setup.screen;
 
-import java.awt.Frame;
+import org.qdwizard.Screen;
 
-public class BoilerplateSetup
+public class WelcomeScreen extends Screen
 {
 
-	public static void main(String[] args)
-	{
-		Frame frame = new Frame();
+	private static final long serialVersionUID = 993838440211268881L;
 
-		SetupWizard wizard = new SetupWizard(frame);
-		wizard.show();
+	@Override
+	public String getName()
+	{
+		return "Welcome";
 	}
+
+	@Override
+	public String getDescription()
+	{
+		return "This setup wizard will help you to get started with Sponge plugin development.";
+	}
+
+	@Override
+	public void initUI()
+	{
+		// TODO Auto-generated method stub
+
+	}
+
 }

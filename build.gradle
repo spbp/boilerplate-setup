@@ -5,10 +5,12 @@ buildscript {
 	}
 	dependencies {
         classpath 'nl.javadude.gradle.plugins:license-gradle-plugin:0.11.0'
+        classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.1'
     }
 }
 
 apply plugin: 'java'
+apply plugin: 'com.github.johnrengelman.shadow'
 apply plugin: 'license'
 
 ext.projectName = 'boilerplate-setup'
@@ -18,10 +20,30 @@ ext.authorUrl = 'https://github.com/spbp/'
 ext.inceptionYear = '2015'
 
 version = '0.1.0-SNAPSHOT'
+
 group = 'com.github.spbp.boilerplate'
+archivesBaseName = project.name.toLowerCase()
 
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'net.sf.qdwizard:qdwizard:4.1.0'
+}
+
+shadowJar {
+    dependencies {
+        include dependency('net.sf.qdwizard:qdwizard')
+    }
+}
+
+// Run shadowJar on build
+assemble.dependsOn shadowJar
+
 	
 license {
     ext.name = rootProject.projectName
@@ -46,6 +68,9 @@ processResources {
 
 jar {
     manifest {
-        attributes 'Main-Class': 'com.github.spbp.setup.BoilerplateSetup'
+        attributes( 
+        "Main-Class": "com.github.spbp.setup.BoilerplateSetup", 
+        "Implementation-Title": name, 
+        "Implementation-Version": version)
     }
 }
