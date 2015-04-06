@@ -24,6 +24,12 @@
  */
 package com.github.spbp.setup.screen;
 
+import java.awt.FlowLayout;
+
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+
 import org.qdwizard.Screen;
 
 public class WelcomeScreen extends Screen
@@ -46,8 +52,12 @@ public class WelcomeScreen extends Screen
 	@Override
 	public void initUI()
 	{
-		// TODO Auto-generated method stub
-
+	    setLayout(new FlowLayout(FlowLayout.LEFT));
+	    setBorder(new EmptyBorder(10, 10, 10, 10));
+	    
+        JPanel panel = new JPanel();
+        panel.add(new JLabel("<html><p>Press <b>Next</b> to continue.</html>"));
+        add(panel);
 	}
 
 }
