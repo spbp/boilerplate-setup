@@ -124,7 +124,7 @@ public class BasicsScreen extends Screen
                 + "<p style=margin-top:5>If you want to publish your plugin on GitHub: "
                 + "<i>com.github.yourname.pluginname</i></p>"
                 + "<p style=margin-top:5>Alternative:"
-                + "<i>yournickname.pluginname</i></p></html>", JLabel.LEFT);
+                + "<i>yournickname.pluginname</i> or <i>yourlastname.yourfirstname.pluginname</i></p></html>", JLabel.LEFT);
         c.gridx = 0;
         c.ipady = 10;
         c.gridwidth = 3;
