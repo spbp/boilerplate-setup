@@ -36,7 +36,7 @@ import javax.swing.border.EmptyBorder;
 
 import org.qdwizard.Screen;
 
-import com.github.spbp.setup.form.FormEntry;
+import com.github.spbp.setup.form.FormTextField;
 
 public class BasicsScreen extends Screen
 {
@@ -60,26 +60,30 @@ public class BasicsScreen extends Screen
         setLayout(new GridBagLayout());
         setBorder(new EmptyBorder(15, 15, 15, 15));
         
-	    FormEntry[] entries = {
-	            new FormEntry(
-	                    "Plugin Name", 
-	                    "The display name of the plugin. Should be a single word.", 
-	                    "MyPlugin", 
-	                    "pluginName"),
-                new FormEntry(
+	    FormTextField[] entries = {
+                new FormTextField(
+                        "Author", 
+                        "Your name or the name of your organization.", 
+                        System.getProperty("user.name"),
+                        "author"),
+                new FormTextField(
+                        "Website", 
+                        "Your website or the website of the plugin.", 
+                        "https://www.example.com",
+                        "url"),
+                new FormTextField(
+                        "Plugin Name", 
+                        "The display name of the plugin.", 
+                        "My Plugin", 
+                        "pluginName"),
+                new FormTextField(
                         "Plugin ID", 
-                        "A unique ID for the plugin to be used internally",
-                        "myplugin", 
+                        "A unique ID for the plugin. The ID is also used as the project name.",
+                        "MyPlugin", 
                         "pluginId"), 
-                new FormEntry(
+                new FormTextField(
                         "Main Package", 
-                        "<html><p>A unique name for the package which contains the plugin main class.</p>"
-                        + "<p style=margin-top:5>If you own a domain name:</p>"
-                        + "<i>com.yourdomain.pluginname</i><br>"
-                        + "<p style=margin-top:5>If you want to publish your plugin on GitHub:</p>"
-                        + "<i>com.github.yourname.pluginname</i><br>"
-                        + "<p style=margin-top:5>Alternative:</p>"
-                        + "<i>yournickname.pluginname</i></html>",
+                        "A unique name for the package which contains the plugin main class.",
                         "com.example.myplugin", 
                         "mainPackage") 
 	    };
@@ -93,7 +97,7 @@ public class BasicsScreen extends Screen
         c.anchor = GridBagConstraints.CENTER;
         c.gridy = 0;
         
-        for (FormEntry entry : entries) {
+        for (FormTextField entry : entries) {
             JLabel label = new JLabel(entry.getLabel(), JLabel.RIGHT);
             label.setFont(new Font(label.getFont().getFontName(), Font.BOLD, label.getFont().getSize()));
             c.gridx = 0;
@@ -113,6 +117,21 @@ public class BasicsScreen extends Screen
             
             c.gridy++;
         }
+        
+        JLabel help = new JLabel("<html><p style=margin-top:5><b>Choosing the right package name:</b></p>"
+                + "<p style=margin-top:5>If you own a domain name: "
+                + "<i>com.yourdomain.pluginname</i></p>"
+                + "<p style=margin-top:5>If you want to publish your plugin on GitHub: "
+                + "<i>com.github.yourname.pluginname</i></p>"
+                + "<p style=margin-top:5>Alternative:"
+                + "<i>yournickname.pluginname</i></p></html>", JLabel.LEFT);
+        c.gridx = 0;
+        c.ipady = 10;
+        c.gridwidth = 3;
+        panel.add(help, c);
+        c.gridy++;
 	}
 
 }
+
+

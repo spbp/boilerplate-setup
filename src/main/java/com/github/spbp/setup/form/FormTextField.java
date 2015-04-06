@@ -1,13 +1,13 @@
 package com.github.spbp.setup.form;
 
-public class FormEntry
+public class FormTextField
 {
     private final String label;
     private final String description;
     private final String text;
     private final String name;
     
-    public FormEntry(String label, String description, String text, String name)
+    public FormTextField(String label, String description, String text, String name)
     {
         this.label = label;
         this.description = description;
