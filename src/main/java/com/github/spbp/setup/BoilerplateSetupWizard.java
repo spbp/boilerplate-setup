@@ -31,37 +31,45 @@ import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.UIManager;
+
 import org.qdwizard.Screen;
 import org.qdwizard.Wizard;
 
-import com.github.spbp.setup.screen.*;
+import com.github.spbp.setup.screen.BasicsScreen;
+import com.github.spbp.setup.screen.FinishScreen;
+import com.github.spbp.setup.screen.InstallationScreen;
+import com.github.spbp.setup.screen.LayoutScreen;
+import com.github.spbp.setup.screen.OpenSourceScreen;
+import com.github.spbp.setup.screen.WelcomeScreen;
 
 public class BoilerplateSetupWizard extends Wizard
 {
-	private final static List<Class<? extends Screen>> SCREENS = new ArrayList<>();
-	
+    private final static List<Class<? extends Screen>> SCREENS = new ArrayList<>();
+
     private final static List<Image> ICONS = new ArrayList<>();
-	
-	static 
-	{
-		SCREENS.add(WelcomeScreen.class);
-		SCREENS.add(LayoutScreen.class);
-		SCREENS.add(BasicsScreen.class);
-		SCREENS.add(OpenSourceScreen.class);
-		SCREENS.add(DependencyScreen.class);
-		SCREENS.add(MavenScreen.class);
-		SCREENS.add(InstallationScreen.class);
-		SCREENS.add(FinishScreen.class);
-		
-		ICONS.add(new ImageIcon(BoilerplateSetupWizard.class.getResource("/assets/spbp_16.png")).getImage());
-	    ICONS.add(new ImageIcon(BoilerplateSetupWizard.class.getResource("/assets/spbp_32.png")).getImage());
-	    ICONS.add(new ImageIcon(BoilerplateSetupWizard.class.getResource("/assets/spbp_48.png")).getImage());
-	    ICONS.add(new ImageIcon(BoilerplateSetupWizard.class.getResource("/assets/spbp_64.png")).getImage());
-	    
-	}
-	
+
+    static
+    {
+        SCREENS.add(WelcomeScreen.class);
+        SCREENS.add(LayoutScreen.class);
+        SCREENS.add(BasicsScreen.class);
+        SCREENS.add(OpenSourceScreen.class);
+        //TODO
+        //SCREENS.add(DependencyScreen.class);
+        //SCREENS.add(MavenScreen.class);
+        SCREENS.add(InstallationScreen.class);
+        SCREENS.add(FinishScreen.class);
+
+        ICONS.add(new ImageIcon(BoilerplateSetupWizard.class.getResource("/assets/spbp_16.png")).getImage());
+        ICONS.add(new ImageIcon(BoilerplateSetupWizard.class.getResource("/assets/spbp_32.png")).getImage());
+        ICONS.add(new ImageIcon(BoilerplateSetupWizard.class.getResource("/assets/spbp_48.png")).getImage());
+        ICONS.add(new ImageIcon(BoilerplateSetupWizard.class.getResource("/assets/spbp_64.png")).getImage());
+
+    }
+
     private final static ImageIcon WIZARD_ICON = new ImageIcon(BoilerplateSetupWizard.class.getResource("/assets/gradle.png"));
-	
+
+
     public static void main(String[] args)
     {
         try
@@ -72,7 +80,7 @@ public class BoilerplateSetupWizard extends Wizard
         {
             e.printStackTrace();
         }
-        
+
         JFrame frame = new JFrame("Sponge Boilerplate Setup");
         frame.setIconImages(ICONS);
         frame.setUndecorated(true);
@@ -81,39 +89,42 @@ public class BoilerplateSetupWizard extends Wizard
 
         BoilerplateSetupWizard wizard = new BoilerplateSetupWizard(frame);
         wizard.show();
-
         System.exit(0);
     }
 
     public BoilerplateSetupWizard(JFrame frame)
-	{
-		super(new Wizard.Builder("Sponge Plugin Boilerplate Setup", WelcomeScreen.class, frame)
-		.icon(WIZARD_ICON)
-		);
-	}
+    {
+        super(new Wizard.Builder("Sponge Plugin Boilerplate Setup", WelcomeScreen.class, frame).icon(WIZARD_ICON).hSize(800).vSize(600));
+    }
 
-	@Override
-	public Class<? extends Screen> getPreviousScreen(Class<? extends Screen> screen)
-	{
-		int index = SCREENS.indexOf(screen);
-		
-		if(index == 0) return null;
-		
-		return SCREENS.get(index - 1);
-	}
+    @Override
+    public Class<? extends Screen> getPreviousScreen(Class<? extends Screen> screen)
+    {
+        int index = SCREENS.indexOf(screen);
 
-	@Override
-	public Class<? extends Screen> getNextScreen(Class<? extends Screen> screen)
-	{
-		int index = SCREENS.indexOf(screen);
-		
-		if(index + 1 == SCREENS.size()) return null;
-		
-		return SCREENS.get(index + 1);
-	}
+        if (index == 0) return null;
 
-	@Override
-	public void finish()
-	{
-	}
+        // disable navigation on install/finish screen
+        if (index >= SCREENS.size() - 2) return null;
+
+        return SCREENS.get(index - 1);
+    }
+
+    @Override
+    public Class<? extends Screen> getNextScreen(Class<? extends Screen> screen)
+    {
+        int index = SCREENS.indexOf(screen);
+
+        if (index + 1 == SCREENS.size()) return null;
+
+        // disable navigation on install screen
+        if (index == SCREENS.size() - 2) return null;
+
+        return SCREENS.get(index + 1);
+    }
+
+    @Override
+    public void finish()
+    {
+    }
 }

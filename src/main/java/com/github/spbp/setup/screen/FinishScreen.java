@@ -24,30 +24,57 @@
  */
 package com.github.spbp.setup.screen;
 
+import java.util.Map.Entry;
+
+import javax.swing.JTextArea;
+
+import net.miginfocom.swing.MigLayout;
+
 import org.qdwizard.Screen;
 
 public class FinishScreen extends Screen
 {
 
-	private static final long serialVersionUID = -278768917403972461L;
+    private static final long serialVersionUID = -278768917403972461L;
 
-	@Override
-	public String getName()
-	{
-		return "Setup Completed";
-	}
 
-	@Override
-	public String getDescription()
-	{
-		return "The boilerplate for your plugin has been created. Happy coding!";
-	}
+    @Override
+    public String getName()
+    {
+        return "Setup Completed";
+    }
 
-	@Override
-	public void initUI()
-	{
-		this.setCanFinish(true);
+    @Override
+    public String getDescription()
+    {
+        return "The boilerplate for your plugin has been created. Happy coding!";
+    }
 
-	}
+    @Override
+    public void initUI()
+    {
+        setCanFinish(true);
+        setCanCancel(false);
+
+        //TODO how to get started.Install IDE...
+        
+        setLayout(new MigLayout("ins 20, wrap 1", "[100%]"));
+        
+        JTextArea textArea = new JTextArea();
+        add(textArea);
+        
+        String debugOutput = "This installer is just a mockup and did not create any files!\nDebug Output:\n";
+        
+        for(Entry<Object, Object> entry : data.entrySet())
+        {
+            debugOutput += entry.getKey().toString();
+            debugOutput += " : ";
+            debugOutput += entry.getValue().toString();
+            debugOutput += "\n";
+        }
+        
+        textArea.setText(debugOutput);
+
+    }
 
 }

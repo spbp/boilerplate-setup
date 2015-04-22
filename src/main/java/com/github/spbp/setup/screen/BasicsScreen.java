@@ -25,113 +25,150 @@
 package com.github.spbp.setup.screen;
 
 import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
 
 import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.JSeparator;
 import javax.swing.JTextField;
-import javax.swing.border.EmptyBorder;
+
+import net.miginfocom.swing.MigLayout;
 
 import org.qdwizard.Screen;
 
-import com.github.spbp.setup.form.FormTextField;
+import com.github.spbp.setup.components.Hyperlink;
+import com.github.spbp.setup.data.Data;
 
 public class BasicsScreen extends Screen
 {
-	private static final long serialVersionUID = 2372190762416860055L;
+    private static final long serialVersionUID = 2372190762416860055L;
+    
+    private JTextField authorTextField;
+    private JTextField urlTextField;
+    private JTextField displayNameTextField;
+    private JTextField idTextField;
+    private JTextField descriptionTextField;
+    private JTextField mainPackageTextField;
+    
+    @Override
+    public String getName()
+    {
+        return "Project Information";
+    }
 
-	@Override
-	public String getName()
-	{
-		return "Project Information";
-	}
+    @Override
+    public String getDescription()
+    {
+        return "Enter the basic information about your plugin.";
+    }
 
-	@Override
-	public String getDescription()
-	{
-		return "Enter the basic information about your plugin.";
-	}
+    @Override
+    public void initUI()
+    {
+        setLayout(new MigLayout("ins 20, wrap 3", "[][][55%]"));
 
-	@Override
-	public void initUI()
-	{
-        setLayout(new GridBagLayout());
-        setBorder(new EmptyBorder(15, 15, 15, 15));
-        
-	    FormTextField[] entries = {
-                new FormTextField(
-                        "Author", 
-                        "Your name or the name of your organization.", 
-                        System.getProperty("user.name"),
-                        "author"),
-                new FormTextField(
-                        "Website", 
-                        "Your website or the website of the plugin.", 
-                        "https://www.example.com",
-                        "url"),
-                new FormTextField(
-                        "Plugin Name", 
-                        "The display name of the plugin.", 
-                        "My Plugin", 
-                        "pluginName"),
-                new FormTextField(
-                        "Plugin ID", 
-                        "A unique ID for the plugin. The ID is also used as the project name.",
-                        "MyPlugin", 
-                        "pluginId"), 
-                new FormTextField(
-                        "Main Package", 
-                        "A unique name for the package which contains the plugin main class.",
-                        "com.example.myplugin", 
-                        "mainPackage") 
-	    };
-        
-        
-        JPanel panel = this;
-        
-        GridBagConstraints c = new GridBagConstraints();
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.insets = new Insets(5,5,5,5);
-        c.anchor = GridBagConstraints.CENTER;
-        c.gridy = 0;
-        
-        for (FormTextField entry : entries) {
-            JLabel label = new JLabel(entry.getLabel(), JLabel.RIGHT);
-            label.setFont(new Font(label.getFont().getFontName(), Font.BOLD, label.getFont().getSize()));
-            c.gridx = 0;
-            c.weightx = 0;
-            panel.add(label, c);
-            
-            JTextField field = new JTextField(entry.getText(), 20);
-            label.setLabelFor(field);
-            c.gridx = 1;
-            c.weightx = 0.4;
-            panel.add(field, c);
-            
-            JLabel description = new JLabel(entry.getDescription(), JLabel.LEFT);
-            c.gridx = 2;
-            c.weightx = 0.3;
-            panel.add(description, c);
-            
-            c.gridy++;
-        }
-        
-        JLabel help = new JLabel("<html><p style=margin-top:5><b>Choosing the right package name:</b></p>"
-                + "<p style=margin-top:5>If you own a domain name: "
-                + "<i>com.yourdomain.pluginname</i></p>"
-                + "<p style=margin-top:5>If you want to publish your plugin on GitHub: "
-                + "<i>com.github.yourname.pluginname</i></p>"
-                + "<p style=margin-top:5>Alternative:"
-                + "<i>yournickname.pluginname</i> or <i>yourlastname.yourfirstname.pluginname</i></p></html>", JLabel.LEFT);
-        c.gridx = 0;
-        c.ipady = 10;
-        c.gridwidth = 3;
-        panel.add(help, c);
-        c.gridy++;
-	}
+        JLabel label;
+        JLabel description;
+        JSeparator separator;
+        JLabel help;
 
+        label = new JLabel("Author/Organization");
+        label.setFont(label.getFont().deriveFont(Font.BOLD));
+
+        authorTextField = new JTextField(System.getProperty("user.name"));
+
+        label.setLabelFor(authorTextField);
+
+        description = new JLabel("<html>Your name or the name of your organization.</html>");
+
+        add(label, Constraints.LABEL);
+        add(authorTextField, Constraints.TEXTFIELD);
+        add(description, Constraints.DESCRIPTION);
+
+        label = new JLabel("Website");
+        label.setFont(label.getFont().deriveFont(Font.BOLD));
+
+        urlTextField = new JTextField("https://example.com");
+
+        label.setLabelFor(urlTextField);
+
+        description = new JLabel("<html>Your website or the website of the plugin.</html>");
+
+        add(label, Constraints.LABEL);
+        add(urlTextField, Constraints.TEXTFIELD);
+        add(description, Constraints.DESCRIPTION);
+
+        separator = new JSeparator();
+        add(separator, Constraints.SEPARATOR);
+
+        label = new JLabel("Plugin Display Name");
+        label.setFont(label.getFont().deriveFont(Font.BOLD));
+
+        displayNameTextField = new JTextField("My Plugin");
+
+        label.setLabelFor(displayNameTextField);
+
+        description = new JLabel("<html>The display name of the plugin.</html>");
+
+        add(label, Constraints.LABEL);
+        add(displayNameTextField, Constraints.TEXTFIELD);
+        add(description, Constraints.DESCRIPTION);
+
+        label = new JLabel("Plugin ID");
+        label.setFont(label.getFont().deriveFont(Font.BOLD));
+
+        idTextField = new JTextField("MyPlugin");
+
+        label.setLabelFor(idTextField);
+
+        description = new JLabel("<html>A unique ID for the plugin. The ID is also used as the project name.</html>");
+
+        add(label, Constraints.LABEL);
+        add(idTextField, Constraints.TEXTFIELD);
+        add(description, Constraints.DESCRIPTION);
+
+        label = new JLabel("Plugin Description");
+        label.setFont(label.getFont().deriveFont(Font.BOLD));
+
+        descriptionTextField = new JTextField("A simple Sponge plugin");
+        label.setLabelFor(descriptionTextField);
+
+        description = new JLabel("<html>A short one-line description of your plugin.</html>");
+
+        add(label, Constraints.LABEL);
+        add(descriptionTextField, Constraints.TEXTFIELD);
+        add(description, Constraints.DESCRIPTION);
+
+        label = new JLabel("Main Package");
+        label.setFont(label.getFont().deriveFont(Font.BOLD));
+
+        mainPackageTextField = new JTextField("com.example.myplugin");
+        label.setLabelFor(mainPackageTextField);
+
+        description = new JLabel("<html>A unique name for the package which contains the plugin main class.</html>");
+
+        add(label, Constraints.LABEL);
+        add(mainPackageTextField, Constraints.TEXTFIELD);
+        add(description, Constraints.DESCRIPTION);
+
+        separator = new JSeparator();
+        add(separator, Constraints.SEPARATOR);
+
+        help = new JLabel("<html><div style=font-size:13><p><b>Choosing the right package name:</b></p>"
+                + "<p style=margin-top:5>If you own a domain name: " + "<i>com.yourdomain.pluginname</i></p>"
+                + "<p style=margin-top:5>If you want to publish your plugin on GitHub: " + "<i>com.github.accountname.pluginname</i></p>"
+                + "<p style=margin-top:5>Alternative: " + "<i>nickname.pluginname</i> or <i>lastname.firstname.pluginname</i></p></div></html>");
+        add(help, Constraints.HELP);
+        add(new Hyperlink("More Information", "https://docs.oracle.com/javase/tutorial/java/package/namingpkgs.html"), Constraints.HELP);
+    }
+    
+    @Override 
+    public boolean onNext() 
+    {
+        data.put(Data.AUTHOR, authorTextField.getText());
+        data.put(Data.URL, urlTextField.getText());
+        data.put(Data.DISPLAY_NAME, displayNameTextField.getText());
+        data.put(Data.ID, idTextField.getText());
+        data.put(Data.DESCRIPTION, descriptionTextField.getText());
+        data.put(Data.MAIN_PACKAGE, mainPackageTextField.getText());
+        return true;
+    }
 }
-
-

@@ -24,30 +24,134 @@
  */
 package com.github.spbp.setup.screen;
 
+import java.io.File;
+import java.io.IOException;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JProgressBar;
+
+import net.miginfocom.swing.MigLayout;
+
 import org.qdwizard.Screen;
+import org.qdwizard.Wizard;
+
+import com.github.spbp.setup.data.Data;
+import com.github.spbp.setup.data.Status;
 
 public class InstallationScreen extends Screen
 {
+    private static final long serialVersionUID = -3610374783949451091L;
 
-	private static final long serialVersionUID = -3610374783949451091L;
+    private JProgressBar progressBar;
 
-	@Override
-	public String getName()
-	{
-		return "Installing";
-	}
+    @Override
+    public String getName()
+    {
+        return "Installing";
+    }
 
-	@Override
-	public String getDescription()
-	{
-		return "Please wait while the setup is configuring your plugin workspace.";
-	}
+    @Override
+    public String getDescription()
+    {
+        return null;
+    }
 
-	@Override
-	public void initUI()
-	{
-		this.setCanCancel(false);
+    @Override
+    public void initUI()
+    {
+        setLayout(new MigLayout("ins 20, wrap 1", "[100%]"));
 
-	}
+        add(new JLabel("Please wait while the setup is configuring your plugin workspace."));
 
+        progressBar = new JProgressBar();
+        add(progressBar, "growx, height 25");
+    }
+    
+    public void onEnter() 
+    {
+        if(data.get(Status.INSTALLED) != null || data.get(Status.SHIT_HAPPENED) != null) setInstalled();
+        
+        copyFiles();
+    }
+    
+    public void onCancelled() 
+    {
+        undoCopyFiles();
+    }
+
+    public void setProgress(int n)
+    {
+        progressBar.setValue(n);
+    }
+    
+    public void copyFiles() 
+    {
+        File workspaceDir = (File) data.get(Data.WORKSPACE_DIR);
+        
+        File testFile = new File(workspaceDir, "hello.txt");
+        
+        try
+        {
+            testFile.createNewFile();
+        }
+        catch (IOException e)
+        {
+            JOptionPane.showMessageDialog(this, "An error occurred during the installation:\n" + e.getMessage());
+            setShitHappened();
+            undoCopyFiles();
+            return;
+        }
+        setInstalled();
+    }
+
+    public void undoCopyFiles()
+    {
+    }
+    
+    public void setShitHappened()
+    {
+        data.put(Status.SHIT_HAPPENED, true);
+        setInstalled();
+    }
+
+    public void setInstalled()
+    {
+        data.put(Status.INSTALLED, true);
+        
+        setProgress(100);
+        
+        Timer timer = new Timer();
+        
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                forceNext();
+            }
+          }, 1000);
+    }
+    
+    private void forceNext() 
+    {
+        // a little hack to automatically go to the next screen
+        try
+        {
+            Field wizardField = Screen.class.getDeclaredField("wizard");
+            wizardField.setAccessible(true);
+            Wizard wizard = (Wizard) wizardField.get(this);
+
+            Method screenMethod = Wizard.class.getDeclaredMethod("setScreen", Class.class);
+
+            screenMethod.setAccessible(true);
+            screenMethod.invoke(wizard, FinishScreen.class);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
 }

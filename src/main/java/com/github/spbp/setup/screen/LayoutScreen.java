@@ -24,30 +24,92 @@
  */
 package com.github.spbp.setup.screen;
 
+import javax.swing.ButtonGroup;
+import javax.swing.JLabel;
+import javax.swing.JRadioButton;
+import javax.swing.JSeparator;
+
+import net.miginfocom.swing.MigLayout;
+
 import org.qdwizard.Screen;
+
+import com.github.spbp.setup.data.Data;
+import com.github.spbp.setup.data.Layout;
 
 public class LayoutScreen extends Screen
 {
 
-	private static final long serialVersionUID = -2155056712495474857L;
+    private static final long serialVersionUID = -2155056712495474857L;
+    
+    private JRadioButton layoutSimpleRadioButton;
+    private JRadioButton layoutMultiplatformRadioButton;
+    private JRadioButton layoutApiPluginRadioButton;
 
-	@Override
-	public String getName()
-	{
-		return "Project Layout";
-	}
+    @Override
+    public String getName()
+    {
+        return "Project Layout";
+    }
 
-	@Override
-	public String getDescription()
-	{
-		return "Choose between different layouts for different use cases.";
-	}
+    @Override
+    public String getDescription()
+    {
+        return "Choose between different layouts for different use cases.";
+    }
 
-	@Override
-	public void initUI()
-	{
-		// TODO Auto-generated method stub
+    @Override
+    public void initUI()
+    {
+        setLayout(new MigLayout("ins 20, wrap 2", "[]30[100%]"));
 
-	}
+        JLabel description;
+        JSeparator separator;
 
+        ButtonGroup buttonGroup = new ButtonGroup();
+
+        layoutSimpleRadioButton = new JRadioButton("Simple Layout", true);
+        buttonGroup.add(layoutSimpleRadioButton);
+
+        description = new JLabel("<html>The recommended layout. <br>" + "Creates a simple Gradle project for your Sponge plugin.</html>");
+
+        add(layoutSimpleRadioButton, Constraints.RADIO_BUTTON);
+        add(description, Constraints.DESCRIPTION);
+
+        separator = new JSeparator();
+        add(separator, Constraints.SEPARATOR);
+
+        layoutMultiplatformRadioButton = new JRadioButton("Multiplatform Layout", false);
+        buttonGroup.add(layoutMultiplatformRadioButton);
+
+        description = new JLabel("<html>Choose this if you want to develop a plugin for multiple server platforms. <br>"
+                + "Creates a Gradle project with 3 subprojects ('Core', 'Sponge' and 'Bukkit').</html>");
+
+        add(layoutMultiplatformRadioButton, Constraints.RADIO_BUTTON);
+        add(description, Constraints.DESCRIPTION);
+
+        separator = new JSeparator();
+        add(separator, Constraints.SEPARATOR);
+
+        layoutApiPluginRadioButton = new JRadioButton("Plugin-with-API Layout", false);
+        buttonGroup.add(layoutApiPluginRadioButton);
+
+        description = new JLabel("<html>Choose this if you want to develop a Sponge plugin with a separate API. <br>"
+                + "Creates a Gradle project with 2 subprojects ('API' and 'Plugin').</html>");
+
+        add(layoutApiPluginRadioButton, Constraints.RADIO_BUTTON);
+        add(description, Constraints.DESCRIPTION);
+    }
+    
+    @Override 
+    public boolean onNext() 
+    {
+        Layout layout;
+        
+        if(layoutSimpleRadioButton.isSelected()) layout = Layout.SIMPLE;
+        else if(layoutMultiplatformRadioButton.isSelected()) layout = Layout.MULTIPLATFORM; 
+        else layout = Layout.API_PLUGIN;
+        
+        data.put(Data.LAYOUT, layout);
+        return true;
+    }
 }

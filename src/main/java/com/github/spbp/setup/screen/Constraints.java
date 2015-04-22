@@ -24,31 +24,14 @@
  */
 package com.github.spbp.setup.screen;
 
-import org.qdwizard.Screen;
-
-public class MavenScreen extends Screen
+public class Constraints
 {
-
-    private static final long serialVersionUID = -1873885592377298905L;
-
-
-    @Override
-    public String getName()
-    {
-        return "Maven Configuration";
-    }
-
-    @Override
-    public String getDescription()
-    {
-        return "Deploy your plugin artifacts to a Maven repository.";
-    }
-
-    @Override
-    public void initUI()
-    {
-        // TODO Auto-generated method stub
-
-    }
-
+    public static final String LABEL = "wmax 20%, alignx right";
+    public static final String TEXTFIELD = "width 45%";
+    public static final String DESCRIPTION = "grow";
+    public static final String SEPARATOR = "span, grow, gap 0 0 5 5";
+    public static final String HELP = "span, grow";
+    public static final String RADIO_BUTTON = "";
+    public static final String CHECK_BOX = "";
+    public static final String COMBO_BOX = "";
 }

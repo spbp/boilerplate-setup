@@ -22,33 +22,40 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.github.spbp.setup.screen;
+package com.github.spbp.setup.components;
 
-import org.qdwizard.Screen;
+import java.awt.Cursor;
+import java.awt.Desktop;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.net.URI;
 
-public class MavenScreen extends Screen
+import javax.swing.JLabel;
+
+public class Hyperlink extends JLabel
 {
+    private static final long serialVersionUID = -6583505378244296727L;
 
-    private static final long serialVersionUID = -1873885592377298905L;
 
-
-    @Override
-    public String getName()
+    public Hyperlink(String text, final String uri)
     {
-        return "Maven Configuration";
+        super("<html><a href=''>" + text + "</a></html>");
+
+        setCursor(new Cursor(Cursor.HAND_CURSOR));
+
+        addMouseListener(new MouseAdapter()
+        {
+            @Override
+            public void mouseClicked(MouseEvent event)
+            {
+                try
+                {
+                    Desktop.getDesktop().browse(new URI(uri));
+                }
+                catch (Exception e)
+                {
+                }
+            }
+        });
     }
-
-    @Override
-    public String getDescription()
-    {
-        return "Deploy your plugin artifacts to a Maven repository.";
-    }
-
-    @Override
-    public void initUI()
-    {
-        // TODO Auto-generated method stub
-
-    }
-
 }
