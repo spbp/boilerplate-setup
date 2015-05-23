@@ -26,28 +26,28 @@ package com.github.spbp.setup.screen;
 
 import java.util.Map.Entry;
 
+import javax.swing.JLabel;
 import javax.swing.JTextArea;
 
 import net.miginfocom.swing.MigLayout;
-
 import org.qdwizard.Screen;
 
 public class FinishScreen extends Screen
 {
 
-    private static final long serialVersionUID = -278768917403972461L;
+    private static final long serialVersionUID = -1873885592377298905L;
 
 
     @Override
     public String getName()
     {
-        return "Setup Completed";
+        return "Configuration complete";
     }
 
     @Override
     public String getDescription()
     {
-        return "The boilerplate for your plugin has been created. Happy coding!";
+        return "The setup is ready to install your custom plugin boilerplate.";
     }
 
     @Override
@@ -59,6 +59,8 @@ public class FinishScreen extends Screen
         //TODO how to get started.Install IDE...
         
         setLayout(new MigLayout("ins 20, wrap 1", "[100%]"));
+        
+        add(new JLabel("<html><p>Press 'Finish' to copy the plugin boilerplate files to your workspace folder!</html>"), "grow");
         
         JTextArea textArea = new JTextArea();
         add(textArea);
@@ -74,7 +76,6 @@ public class FinishScreen extends Screen
         }
         
         textArea.setText(debugOutput);
-
     }
 
 }

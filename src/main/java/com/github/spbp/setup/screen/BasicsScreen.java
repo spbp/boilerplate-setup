@@ -161,7 +161,7 @@ public class BasicsScreen extends Screen
     }
     
     @Override 
-    public boolean onNext() 
+    public void onLeave() 
     {
         data.put(Data.AUTHOR, authorTextField.getText());
         data.put(Data.URL, urlTextField.getText());
@@ -169,6 +169,5 @@ public class BasicsScreen extends Screen
         data.put(Data.ID, idTextField.getText());
         data.put(Data.DESCRIPTION, descriptionTextField.getText());
         data.put(Data.MAIN_PACKAGE, mainPackageTextField.getText());
-        return true;
     }
 }

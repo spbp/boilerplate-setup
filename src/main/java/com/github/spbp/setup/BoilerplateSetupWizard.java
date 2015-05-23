@@ -30,14 +30,14 @@ import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
+
+import com.github.spbp.setup.screen.FinishScreen;
 
 import org.qdwizard.Screen;
 import org.qdwizard.Wizard;
-
 import com.github.spbp.setup.screen.BasicsScreen;
-import com.github.spbp.setup.screen.FinishScreen;
-import com.github.spbp.setup.screen.InstallationScreen;
 import com.github.spbp.setup.screen.LayoutScreen;
 import com.github.spbp.setup.screen.OpenSourceScreen;
 import com.github.spbp.setup.screen.WelcomeScreen;
@@ -54,11 +54,10 @@ public class BoilerplateSetupWizard extends Wizard
         SCREENS.add(LayoutScreen.class);
         SCREENS.add(BasicsScreen.class);
         SCREENS.add(OpenSourceScreen.class);
+        SCREENS.add(FinishScreen.class);
         //TODO
         //SCREENS.add(DependencyScreen.class);
         //SCREENS.add(MavenScreen.class);
-        SCREENS.add(InstallationScreen.class);
-        SCREENS.add(FinishScreen.class);
 
         ICONS.add(new ImageIcon(BoilerplateSetupWizard.class.getResource("/assets/spbp_16.png")).getImage());
         ICONS.add(new ImageIcon(BoilerplateSetupWizard.class.getResource("/assets/spbp_32.png")).getImage());
@@ -92,9 +91,13 @@ public class BoilerplateSetupWizard extends Wizard
         System.exit(0);
     }
 
+    private JFrame frame;
+
     public BoilerplateSetupWizard(JFrame frame)
     {
         super(new Wizard.Builder("Sponge Plugin Boilerplate Setup", WelcomeScreen.class, frame).icon(WIZARD_ICON).hSize(800).vSize(600));
+        
+        this.frame = frame;
     }
 
     @Override
@@ -103,9 +106,6 @@ public class BoilerplateSetupWizard extends Wizard
         int index = SCREENS.indexOf(screen);
 
         if (index == 0) return null;
-
-        // disable navigation on install/finish screen
-        if (index >= SCREENS.size() - 2) return null;
 
         return SCREENS.get(index - 1);
     }
@@ -117,14 +117,14 @@ public class BoilerplateSetupWizard extends Wizard
 
         if (index + 1 == SCREENS.size()) return null;
 
-        // disable navigation on install screen
-        if (index == SCREENS.size() - 2) return null;
-
         return SCREENS.get(index + 1);
     }
 
     @Override
     public void finish()
     {
+        //TODO installing...
+        
+        JOptionPane.showMessageDialog(frame, "The boilerplate for your plugin has been created. Happy coding!");
     }
 }

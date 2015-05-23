@@ -130,10 +130,9 @@ public class WelcomeScreen extends Screen
     }
 
     @Override 
-    public boolean onNext() 
+    public void onLeave() 
     {
         data.put(Data.WORKSPACE_DIR, new File(workspaceDirTextField.getText()));
-        return true;
     }
 
     private void updateTextField()

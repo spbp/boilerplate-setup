@@ -101,7 +101,7 @@ public class LayoutScreen extends Screen
     }
     
     @Override 
-    public boolean onNext() 
+    public void onLeave() 
     {
         Layout layout;
         
@@ -110,6 +110,5 @@ public class LayoutScreen extends Screen
         else layout = Layout.API_PLUGIN;
         
         data.put(Data.LAYOUT, layout);
-        return true;
     }
 }

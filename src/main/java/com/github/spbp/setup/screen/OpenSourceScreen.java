@@ -145,13 +145,13 @@ public class OpenSourceScreen extends Screen
 
     }
     
-    public boolean onNext() 
+    @Override
+    public void onLeave() 
     {
         data.put(Data.LICENSE, (License) licenseComboBox.getSelectedItem());
         data.put(Data.LICENSE_HEADERS, licenseHeadersCheckBox.isSelected());
         data.put(Data.GITIGNORE, gitignoreCheckBox.isSelected());
         data.put(Data.README, readmeCheckBox.isSelected());
-        return true;
     }
 
 }

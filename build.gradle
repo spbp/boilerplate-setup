@@ -32,7 +32,7 @@ repositories {
 }
 
 dependencies {
-    compile 'net.sf.qdwizard:qdwizard:4.1.0'
+    compile 'net.sf.qdwizard:qdwizard:5.0.0'
     compile 'com.miglayout:miglayout-swing:5.0'
 }
 
